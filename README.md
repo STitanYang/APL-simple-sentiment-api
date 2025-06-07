@@ -46,6 +46,8 @@ sentiment-api
 4. Create a `.env` file in the root directory and add your Hugging Face API key:
    ```
    HUGGINGFACE_API_KEY=your_api_key_here
+   MODEL_NAME=your_model_name
+   DATABASE_URL=your_database_url
    ```
 
 ## Usage
@@ -59,7 +61,7 @@ You can access the API documentation at `http://127.0.0.1:8000/docs`.
 
 ## API Endpoints
 
-### POST /api/v1/sentiment
+### POST /api/v1/analyze
 
 - **Request Body**: 
   ```json
@@ -74,6 +76,44 @@ You can access the API documentation at `http://127.0.0.1:8000/docs`.
     "sentiment": "positive" or "negative",
     "score": 0.95
   }
+  ```
+
+### GET /api/v1/requests
+
+- **Response**:
+  ```json
+  [
+    {
+        "id": 4,
+        "user_id": 1,
+        "comment_text": "Produk ini cukup mengecewakan!",
+        "created_date": "2025-06-06"
+    },
+    {
+        "id": 5,
+        "user_id": 1,
+        "comment_text": "Produk ini bagus!",
+        "created_date": "2025-06-06"
+    },
+    ...
+   ]
+  ```
+
+### GET /api/v1/requests/{id}
+
+- **Response**:
+  ```json
+  {
+    "id": 5,
+    "user_id": 1,
+    "comment_text": "Produk ini bagus!",
+    "created_date": "2025-06-06",
+    "result": {
+        "label": "positive",
+        "score": 0.966884195804596,
+        "processed_time": "2025-06-06T13:06:55.297706"
+    }
+   }
   ```
 
 ## License
